@@ -3,6 +3,7 @@
 The neatest __PHP__ cheatsheet around. Trust me, I'm a random __Gist__ from __GitHub__ :octocat:
 
 + PHP 7
+   + [PHP 7.2](#php-72) - _2017_
    + [PHP 7.1](#php-71) - _2016_
    + [PHP 7.0](#php-70) - _2015_
 + PHP 5
@@ -12,6 +13,123 @@ The neatest __PHP__ cheatsheet around. Trust me, I'm a random __Gist__ from __Gi
    + [PHP 5.3](#php-53) - _2010_
 + [Glossary](#glossary)
 + [Credits](#credits)
+
+## PHP 7.2
+
+Initial Release __2017-11-30__ : [New object type](#new-object-type), [Abstract method overriding](#abstract-method-overriding), [Sodium is now a core extension](#sodium-is-now-a-core-extension), [Password hashing with Argon2](#password-hashing-with-argon2), [Extended string types for PDO](#extended-string-types-for-pdo), [Additional emulated prepares debugging information for PDO](#additional-emulated-prepares-debugging-information-for-pdo), [Support for extended operations in LDAP](#support-for-extended-operations-in-ldap), [Address Information additions to the Sockets extension](#address-information-additions-to-the-sockets-extension), [Parameter type widening](#parameter-type-widening), [Allow a trailing comma for grouped namespaces](#allow-a-trailing-comma-for-grouped-namespaces), [proc_nice() support on Windows](#proc_nice-support-on-windows), [pack() and unpack() endian support](#pack-and-unpack-endian-support), [Enhancements to the EXIF extension](#enhancements-to-the-exif-extension), [New features in PCRE](#new-features-in-pcre), [SQLite3 allows writing BLOBs](#sqlite3-allows-writing-blobs), [Oracle OCI8 Transparent Application Failover Callbacks](#oracle-oci8-transparent-application-failover-callbacks), [Enhancements to the ZIP extension](#enhancements-to-the-zip-extension)
+
+### [New object type](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.object-type)
+```PHP
+function (object $obj) { /* ... */ }
+```
+
+### [Abstract method overriding](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.abstract-method-overriding)
+```PHP
+abstract class A
+{
+    abstract function test(string $s);
+}
+abstract class B extends A
+{
+    // overridden - still maintaining contravariance for parameters and covariance for return
+    abstract function test($s) : int;
+}
+```
+
+### [Sodium is now a core extension](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.sodium)
+```PHP
+$secret_key = sodium_crypto_secretbox_keygen();
+$message = 'Sensitive information';
+$nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+$encrypted_message = sodium_crypto_secretbox($message, $nonce, $secret_key);
+```
+
+### [Password hashing with Argon2](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.pws-hashing-with-argon2)
+```PHP
+// Argon2i with default cost factors
+password_hash('password', PASSWORD_ARGON2I);
+
+// Argon2i by name with custom cost factors
+password_hash('password', PASSWORD_ARGON2I, ['memory_cost' => 1<<17, 'time_cost' => 4, 'threads' => 2]);
+
+// The new options for the algorithm are listed as follows.
+$options = [
+    'memory_cost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST, // memory_cost = 1024 KiB
+    'time_cost'   => PASSWORD_ARGON2_DEFAULT_TIME_COST,   // time_cost = 2
+    'threads'     => PASSWORD_ARGON2_DEFAULT_THREADS,     // threads = 2
+];
+```
+
+### [Extended string types for PDO](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.pdo-extended-str-types)
+```PHP
+$db->quote('über', PDO::PARAM_STR | PDO::PARAM_STR_NATL);
+```
+
+### [Additional emulated prepares debugging information for PDO](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.additional-emulated-prepares-debugging-info)
+```PHP
+$sth = $pdo->prepare("...");
+$sth-;>debugDumpParams();
+```
+
+### [Support for extended operations in LDAP](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.extended-ops-in-ldap)
+```PHP
+```
+
+### [Address Information additions to the Sockets extension](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.addr-info-in-sockets)
+```PHP
+```
+
+### [Parameter type widening](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.param-type-widening)
+```PHP
+interface A
+{
+    public function Test(array $input);
+}
+
+class B implements A
+{
+    public function Test($input){} // type omitted for $input
+}
+```
+
+### [Allow a trailing comma for grouped namespaces](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.trailing-comma-in-grouped-namespaces)
+```PHP
+use Foo\Bar\{
+    Foo,
+    Bar,
+    Baz,
+};
+```
+
+### [proc_nice() support on Windows](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.proc_nice-windows-support)
+```PHP
+```
+
+### [pack() and unpack() endian support](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.pack-unpack-endian-support)
+```PHP
+```
+
+### [Enhancements to the EXIF extension](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.exif-features)
+```PHP
+```
+
+### [New features in PCRE](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.pcre)
+```PHP
+```
+
+### [SQLite3 allows writing BLOBs](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.sqlite3)
+```PHP
+```
+
+### [Oracle OCI8 Transparent Application Failover Callbacks](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.oci8)
+```PHP
+```
+
+### [Enhancements to the ZIP extension](http://php.net/manual/en/migration72.new-features.php#migration72.new-features.zip)
+```PHP
+```
+
+<p align="right"><a href="#php-new-features-cheatsheet">Summary</a> &#187; <a href="#php-72">PHP 7.2</a></p>
 
 ## PHP 7.1
 
@@ -572,6 +690,10 @@ $logfile = ini_get('mail.log');
 - [<?= is now always available](#-is-now-always-available) _5.4_
 - [__debugInfo()](#__debuginfo) _5.6_
 - [A garbage collector for circular references has been added, and is enabled by default](#a-garbage-collector-for-circular-references-has-been-added-and-is-enabled-by-default) _5.3_
+- [Abstract method overriding](#abstract-method-overriding) _7.2_
+- [Additional emulated prepares debugging information for PDO](#additional-emulated-prepares-debugging-information-for-pdo) _7.2_
+- [Address Information additions to the Sockets extension](#address-information-additions-to-the-sockets-extension) _7.2_
+- [Allow a trailing comma for grouped namespaces](#allow-a-trailing-comma-for-grouped-namespaces) _7.2_
 - [Anonymous classes](#anonymous-classes) _7.0_
 - [Argument unpacking via ...](#argument-unpacking-via-) _5.6_
 - [array and string literal dereferencing](#array-and-string-literal-dereferencing) _5.5_
@@ -592,9 +714,12 @@ $logfile = ini_get('mail.log');
 - [Default character encoding](#default-character-encoding) _5.6_
 - [Dynamic access to static methods is now possible](#dynamic-access-to-static-methods-is-now-possible) _5.3_
 - [empty() supports arbitrary expressions](#empty-supports-arbitrary-expressions) _5.5_
+- [Enhancements to the EXIF extension](#enhancements-to-the-exif-extension) _7.2_
+- [Enhancements to the ZIP extension](#enhancements-to-the-zip-extension) _7.2_
 - [Exceptions can now be nested](#exceptions-can-now-be-nested) _5.3_
 - [Expectations](#expectations) _7.0_
 - [Exponentiation via **](#exponentiation-via-) _5.6_
+- [Extended string types for PDO](#extended-string-types-for-pdo) _7.2_
 - [Filtered unserialize()](#filtered-unserialize) _7.0_
 - [finally keyword added](#finally-keyword-added) _5.5_
 - [foreach now supports list()](#foreach-now-supports-list) _5.5_
@@ -616,21 +741,31 @@ $logfile = ini_get('mail.log');
 - [Large file uploads](#large-file-uploads) _5.6_
 - [list() can always unpack objects implementing ArrayAccess](#list-can-always-unpack-objects-implementing-arrayaccess) _7.0_
 - [Multi catch exception handling](#multi-catch-exception-handling) _7.1_
+- [New features in PCRE](#new-features-in-pcre) _7.2_
+- [New object type](#new-object-type) _7.2_
 - [New password hashing API](#new-password-hashing-api) _5.5_
 - [Nowdoc syntax is now supported, similar to Heredoc syntax, but with single quotes](#nowdoc-syntax-is-now-supported-similar-to-heredoc-syntax-but-with-single-quotes) _5.3_
 - [Null coalescing operator](#null-coalescing-operator) _7.0_
 - [Nullable types](#nullable-types), [Void functions](#void-functions) _7.1_
 - [OPcache extension added](#opcache-extension-added) _5.5_
+- [Oracle OCI8 Transparent Application Failover Callbacks](#oracle-oci8-transparent-application-failover-callbacks) _7.2_
 - [Other Features](#other-features) _7.0_
+- [pack() and unpack() endian support](#pack-and-unpack-endian-support) _7.2_
+- [Parameter type widening](#parameter-type-widening) _7.2_
+- [Password hashing with Argon2](#password-hashing-with-argon2) _7.2_
 - [pgsql async support](#pgsql-async-support) _5.6_
 - [php://input is reusable](#phpinput-is-reusable) _5.6_
 - [phpdbg](#phpdbg) _5.6_
 - [preg_replace_callback_array()](#preg_replace_callback_array) _7.0_
+- [proc_nice() support on Windows](#proc_nice-support-on-windows) _7.2_
 - [Return type declarations](#return-type-declarations) _7.0_
 - [Scalar type declarations](#scalar-type-declarations) _7.0_
 - [Session options](#session-options) _7.0_
 - [Short array syntax has been added](#short-array-syntax-has-been-added) _5.4_
+- [Sodium is now a core extension](#sodium-is-now-a-core-extension) _7.2_
 - [Spaceship operator](#spaceship-operator) _7.0_
+- [SQLite3 allows writing BLOBs](#sqlite3-allows-writing-blobs) _7.2_
+- [Support for extended operations in LDAP](#support-for-extended-operations-in-ldap) _7.2_
 - [Support for jump labels (limited goto) has been added](#support-for-jump-labels-limited-goto-has-been-added) _5.3_
 - [Support for keys in list()](#support-for-keys-in-list) _7.1_
 - [Support for Late Static Bindings has been added](#support-for-late-static-bindings-has-been-added) _5.3_
